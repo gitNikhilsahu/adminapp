@@ -1,0 +1,158 @@
+{% load static %}
+{% include 'base.html' %}
+{% block subnav %}
+<div class="row">
+  <div class="col-10">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home'%}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'myadmin'%}">Admin</a></li>
+      <li class="breadcrumb-item">Users</li>
+    </ol>
+  </div>
+  <div class="col-2">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'register'%}">ADD USER</a> </li>
+    </ol>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<style>
+  .dot-a {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: green;
+  }
+
+  .dot-d {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: red;
+  }
+
+  .aa {
+    z-index: 2;
+    color:
+      #fff;
+    background-color:
+      #007bff;
+    border-color:
+      #007bff;
+  }
+
+  .aa-r {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+  }
+</style>
+
+<div class="row">
+  <div class="col-8">
+    <div class="container">
+      <table class="table-hover table table-bordered">
+        <thead class="aa aa-r">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">USERNAME</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">NAME</th>
+            <th scope="col">STATUS</th>
+            <th scop="col">TYPE</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for user in users %}
+          <tr>
+            <th scope="row"> {{ user.id }}</th>
+            <td> <a href="{% url 'update' user.id %}">{{ user.username }}</a> </td>
+            <td> {{ user.email }}</td>
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
+            <td> {% if user.is_active == True %}
+              <span class="dot-a"></span>
+              {% else %}
+              <span class="dot-d"></span>
+              {% endif %}
+            </td>
+            <td>
+              {% if user.is_superuser %}
+              <span style='color:green'>Superuser</span>
+              {% elif user.is_staff %}
+              <span style='color:blue'>Staff</span>
+              {% else %}
+              <span>Noraml</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+
+  {% if users.has_other_pages %}
+  <ul class="pagination justify-content-center" style="margin:20px 0">
+    {% if users.has_previous %}
+    <li  class="page-item"><a class="page-link" href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+
+    {% else %}
+    <li class="disabled page-item" ><a class="page-link">&laquo;</a></li>
+    {% endif %}
+    {% for i in users.paginator.page_range %}
+    {% if users.number == i %}
+    <li class="active page-item"><span> <a class="page-link">{{ i }}</a> <span class="sr-only">(current)</span></span></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if users.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ users.next_page_number }}">&raquo;</a></li>
+    {% else %}
+    <li class="disabled page-item"><a class="page-link">&raquo;</a></li>
+    {% endif %}
+  </ul>
+  {% endif %}
+
+
+
+    </div>
+  </div>
+
+  <div class="col-4">
+
+    <div class="container">
+      <table class="table table-hover table-bordered">
+        <thead class="aa aa-r">
+          <tr>
+            <th colspan="2" scope="col">Users <span style='float: right'> Total : {{ u_count }}</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>  <span style='color:blue'>Staff User</span> </td>
+            <td>{{ u_s_count }}</td>
+          </tr>
+          <tr>
+            <td>Active <span class="dot-a"></span></td>
+            <td> {{ u_a_count  }}</td>
+          </tr>
+          <tr>
+            <td>Not Active <span class="dot-d"></span></td>
+            <td> {{ u_not_a_user }} </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+
+    </div>
+
+  </div>
+
+  {% endblock %}

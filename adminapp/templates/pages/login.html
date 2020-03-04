@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login Here
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style media="screen">
+  .container {
+    margin-top: 8%;
+    margin-right: 300px;
+    margin-left: 300px;
+    padding: 50px 50px  50px  50px;
+  }
+</style>
+
+<div class="container border ">
+  <center><h3>Login</h3></center>
+  <form method="post" class="from-group">
+    {% csrf_token %}
+    {{form|crispy}}
+
+    <button type="submit" class="btn btn-primary" style="float:right">Login</button>
+<br>
+  </form>
+</div>
+
+{% endblock %}

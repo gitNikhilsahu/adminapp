@@ -1,0 +1,55 @@
+{% load static %}
+{% include 'base.html' %}
+
+{% block subnav %}
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="{% url 'home'%}">Home</a></li>
+  <li class="breadcrumb-item">Admin</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<style>
+  .aa {
+    z-index: 2;
+    color:
+      #fff;
+    background-color:
+      #007bff;
+    border-color:
+      #007bff;
+  }
+
+  .aa-r {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+  }
+</style>
+
+<div class="row">
+  <div class="col-6">
+    <div class="container">
+      <table class="table-hover table ">
+        <thead class="aa aa-r">
+
+          <tr>
+            <th scope="col">Authentication and Authritation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td> <a href="{% url 'users' %}">Users</a></td>
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <div class="col-4">
+
+
+  </div>
+</div>
+{% endblock %}
